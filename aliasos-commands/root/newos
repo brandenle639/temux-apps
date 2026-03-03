@@ -1,0 +1,27 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# Show installed distros
+proot-distro list 2>&1 | grep -v ' - ' | sed 's/^[[:space:]]*[*][[:space:]]*//; s/ <.*>//'
+echo ""
+
+# Ask for distro and alias
+read -p "Enter distro name (alpine/ubuntu/debian/etc): " os_input
+read -p "Enter new root alias name (no spaces): " user_input
+
+# Validate inputs
+if [[ -n "$user_input" && -n "$os_input" && "$user_input" != *" "* ]]; then
+    echo "Installing $os_input as $user_input ..."
+    
+    proot-distro install "$os_input" --override-alias "$user_input"
+
+    # Create launcher script
+    cat <<EOF > "/data/data/com.termux/files/usr/bin/$user_input"
+#!/data/data/com.termux/files/usr/bin/bash
+proot-distro login "$user_input"
+EOF
+
+    chmod +x "/data/data/com.termux/files/usr/bin/$user_input"
+
+else
+    echo "Invalid input. Name must not be empty and must not contain spaces."
+fi

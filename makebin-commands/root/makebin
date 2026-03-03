@@ -1,0 +1,30 @@
+#!/data/data/com.termux/files/usr/bin/bash
+source .env
+export GZIP=-9
+
+cat <<EOF > install.sh
+#!/data/data/com.termux/files/usr/bin/bash
+mkdir -p ${installfolder}
+tar xf root.tar.gz -C ${installfolder}
+chmod -R +x ${installfolder}
+exit 0
+EOF
+
+chmod +x install.sh
+
+cd ${PWD}/root
+list=""
+
+for file in *; do
+  list="$list $file"
+done
+
+tar -I 'gzip -9' -cpf ../root.tar.gz $list
+
+cd ..
+
+bname=$(basename "$PWD")
+
+cat ${PWD}/install.sh ${PWD}/root.tar.gz > ${PWD}/${bname}-installer.bin
+
+chmod +x ${PWD}/${bname}-installer.bin

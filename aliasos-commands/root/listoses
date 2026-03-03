@@ -1,0 +1,8 @@
+#!/data/data/com.termux/files/usr/bin/bash
+
+# Show installed distros
+#proot-distro list
+#proot-distro list | awk '{print $1}'
+echo ""
+proot-distro list 2>&1 | grep ' - ' | sed 's/^[[:space:]]*[*][[:space:]]*//; s/ <.*>//'
+echo ""

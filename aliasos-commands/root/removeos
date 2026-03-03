@@ -1,0 +1,15 @@
+#!/data/data/com.termux/files/usr/bin/bash
+echo ""
+echo "Installed Aliased OSes:"
+echo ""
+proot-distro list 2>&1 | grep ' - ' | sed 's/^[[:space:]]*[*][[:space:]]*//; s/ <.*>//'
+
+echo ""
+read -p "Enter root alias name to remove (no spaces): " user_input
+
+if [ -n "$user_input" ]; then
+    rm -rf /data/data/com.termux/files/usr/bin/${user_input}
+    proot-distro remove ${user_input}
+else
+    echo "Input is empty. No action taken."
+fi

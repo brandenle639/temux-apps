@@ -1,0 +1,8 @@
+#!/data/data/com.termux/files/usr/bin/bash
+read -p "Enter Git URL: " user_input
+
+if [ -n "$user_input" ]; then
+    git clone "$user_input"
+else
+    echo "Input is empty. No action taken."
+fi

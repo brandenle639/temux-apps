@@ -1,0 +1,10 @@
+#!/data/data/com.termux/files/usr/bin/bash
+read -p "Enter Commit Message: " user_input
+
+if [ -n "$user_input" ]; then
+    git add -A
+    git commit -a -m "$user_input"
+    git push
+else
+    echo "Input is empty. No action taken."
+fi
